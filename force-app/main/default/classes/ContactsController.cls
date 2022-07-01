@@ -8,8 +8,9 @@ public with sharing class ContactsController {
         try {
             contacts = [
                 SELECT Id, Name, MailingAddress, AccountId, Account.Name, Phone, Title
-                FROM Contact              
+                FROM Contact
                 WITH SECURITY_ENFORCED
+                ORDER BY Name   
             ];
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
