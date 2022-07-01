@@ -1,0 +1,81 @@
+<template>    
+    <lightning-card>  
+        <lightning-spinner if:true={isLoading} alternative-text="Loading" size="large"></lightning-spinner>
+        
+        <div class="slds-grid slds-m-bottom_medium slds-m-horizontal_medium">
+            <div class="slds-col slds-size_1-of-2">
+                <lightning-input 
+                                onchange={handleSearchInputChange}
+                                type="search"
+                                label="Contact name" 
+                                value={searchedContactName}></lightning-input> 
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-text-align_right">
+                <div style="position:relative; top:24px;">
+                        
+                    <button class="slds-button slds-button_success component-button"                                                                      
+                            onclick={handleNewButtonClick}                                              
+                            name="Create">New</button>
+                
+                </div>  
+            </div>
+        </div>
+        
+        <div class="slds-p-horizontal_medium">                             
+            
+            <lightning-datatable    key-field="Id"                    
+                                    data={recordsToDisplay}
+                                    hide-checkbox-column="true"
+                                    onrowaction={handleRowAction} 
+                                    column-widths-mode="auto"
+                                    show-row-number-column  
+                                    row-number-offset={rowNumberOffset}                                                                     
+                                    sorted-by={fieldNameToSort}
+                                    sorted-direction={sortedDirection}
+                                    onsort={handleTableSort}
+                                    columns={columns}>
+            </lightning-datatable>
+            
+            <div class="slds-m-top_small component-footer">
+
+                <div>
+                    Records count: {recordsCount}
+                </div>
+
+                <div>
+                    Page {currentPageNumber} of {pagesCount}
+
+                    <button class="slds-button slds-button_neutral slds-m-left_large slds-m-right_xx-small component-button" 
+                            id="previousButton"    
+                            disabled={isPreviousButtonDisabled}                                                                                               
+                            onclick={handlePreviousButtonClick}                                              
+                            name="Previous">Previous</button>
+
+                    <button class="slds-button slds-button_neutral component-button" 
+                            id="nextButton"  
+                            disabled={isNextButtonDisabled}                                                                                                  
+                            onclick={handleNextButtonClick}                                              
+                            name="Next">Next</button> 
+                </div>  
+            </div>     
+        </div>             
+        
+        <template if:true={showRecordEditModal}>
+            <c-record-edit-modal   onclosemodal={closeRecordEditModal} 
+                                    window-mode={recordEditWindowMode}
+                                    window-title={recordEditWindowTitle} 
+                                    object-api-name={objectApiName}
+                                    object-fields={contactFields}
+                                    record-id={recordIdToEdit} 
+                                    record-name={recordNameToEdit}></c-record-edit-modal>
+        </template>
+
+        <template if:true={showConfirmationModal}>
+            <c-confirmation-modal   onclosemodal={closeConfirmationModal} 
+                                    window-title={confirmationOptions.Title} 
+                                    window-message={confirmationOptions.Message}
+                                    operation-name={confirmationOptions.OperationName}></c-confirmation-modal>
+        </template>
+        
+    </lightning-card>  
+</template>

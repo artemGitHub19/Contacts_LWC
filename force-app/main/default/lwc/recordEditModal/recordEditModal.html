@@ -1,0 +1,46 @@
+<template>
+    <section    role="dialog" 
+                tabindex="-1" 
+                class="slds-modal slds-fade-in-open slds-modal_large" 
+                aria-labelledby="modal-heading-01" 
+                aria-modal="true" 
+                aria-describedby="modal-content-id-1">
+
+        <div class="slds-modal__container">    
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={handleCancelButtonClick}>
+                    <lightning-icon icon-name="utility:close"
+                                    alternative-text="close"
+                                    variant="inverse"
+                                    size="medium" ></lightning-icon>  
+                    
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{windowTitle}</h2>
+            </header>
+            
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                <lightning-record-edit-form object-api-name={objectApiName} 
+                                            record-id={recordId} 
+                                            onsuccess={handleSuccess} >
+                     
+                    <lightning-messages></lightning-messages>
+
+                    <template for:each={objectFields} for:item="field">
+                        <lightning-input-field key={field} field-name={field}></lightning-input-field>                               
+                    </template>
+                    
+                    <button class="slds-button submit-button" type="submit"></button>
+
+                </lightning-record-edit-form>
+            </div>
+            
+            <footer class="slds-modal__footer">                
+                <button class="slds-button slds-button_neutral" onclick={handleCancelButtonClick}>Cancel</button>
+                <button class="slds-button slds-button_brand" onclick={handleSaveButtonClick}>Save</button>
+            </footer>            
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
